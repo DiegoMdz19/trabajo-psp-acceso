@@ -1,11 +1,8 @@
 import { LibroRepository } from '../repositories/LibroRepository.js';
-import { LibroAutorRepository } from '../repositories/LibroAutorRepository.js';
-
 
 export class LibroService {
   constructor() {
     this.libroRepository = new LibroRepository();
-    this.libroAutorRepository = new LibroAutorRepository();
   }
 
  
@@ -88,10 +85,10 @@ export class LibroService {
 
   async createLibro(libroData, autorIds = []) {
     // Validar datos del libro
-    this.validateLibroData(libroData);
+    this.validarLibroData(libroData);
 
     // Validar ISBN único
-    await this.validateUniqueIsbn(libroData.isbn);
+    await this.validarIsbnUnico(libroData.isbn);
 
     // Crear el libro
     const libro = await this.libroRepository.create(libroData);
@@ -111,11 +108,11 @@ export class LibroService {
     await this.getLibroById(id);
 
     // Validar datos
-    this.validateLibroData(libroData);
+    this.validarLibroData(libroData);
 
     // Validar ISBN único (excluyendo el libro actual)
     if (libroData.isbn) {
-      await this.validateUniqueIsbn(libroData.isbn, id);
+      await this.validarIsbnUnico(libroData.isbn, id);
     }
 
     // Actualizar
