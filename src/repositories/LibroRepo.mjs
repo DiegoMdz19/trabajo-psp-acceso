@@ -1,4 +1,4 @@
-import { supabase } from '../config/supabase.js';
+import { supabase } from '../config/database.mjs';
 
 
 export class LibroRepo {
@@ -6,12 +6,7 @@ export class LibroRepo {
   async searchAll() {
     const { data, error } = await supabase
       .from('Libro')
-      .select(`
-        *,
-        Libro_Autor(
-          Autor(*)
-        )
-      `)
+      .select(`*`)
       .order('titulo');
     
     if (error) throw error;
@@ -21,12 +16,7 @@ export class LibroRepo {
   async searchById(id) {
     const { data, error } = await supabase
       .from('Libro')
-      .select(`
-        *,
-        Libro_Autor(
-          Autor(*)
-        )
-      `)
+      .select(`*`)
       .eq('id', id)
       .single();
     
