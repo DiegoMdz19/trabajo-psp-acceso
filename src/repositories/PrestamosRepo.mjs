@@ -122,5 +122,68 @@ export class PrestamoRepository {
     return data;
   }
 
+  async searchPrestamoActivo() {
+    const { data, error } = await supabase
+      .from('Prestamo')
+      .select(`
+        *,
+        Usuario(id, nombre, email),
+        Libro(id, titulo, isbn, stock)
+      `)
+      .eq('estado', 'activo')
+      .is('fecha_devolucion_real', null)
+      .order('fecha_prestamo', { ascending: false });
+    
+    if (error) throw error;
+    return data;
+  }
+
+
+  async searchPrestamoDevuelto() {
+    const { data, error } = await supabase
+      .from('Prestamo')
+      .select(`
+        *,
+        Usuario(id, nombre, email),
+        Libro(id, titulo, isbn)
+      `)
+      .eq('estado', 'devuelto')
+      .not('fecha_devolucion_real', 'is', null)
+      .order('fecha_devolucion_real', { ascending: false });
+    
+    if (error) throw error;
+    return data;
+  }
+
+
+  async returnBook(id) {
+    const { data, error } = await supabase
+      .from('Prestamo')
+      .update({
+        fecha_devolucion_real: new Date().toISOString(),
+        estado: 'devuelto',
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', id)
+      .select(`
+        *,
+        Usuario(id, nombre, email),
+        Libro(id, titulo, isbn)
+      `)
+      .single();
+    
+    if (error) throw error;
+    return data;
+  }
+  async searchByNacionalidad(nacionalidad) {
+    const { data, error } = await supabase
+      .from('Autor')
+      .select('*')
+      .eq('nacionalidad', nacionalidad)
+      .maybeSingle();
+    
+    if (error) throw error;
+    return data;
+  }
 }
   

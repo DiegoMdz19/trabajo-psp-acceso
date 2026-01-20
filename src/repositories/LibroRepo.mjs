@@ -133,4 +133,24 @@ export class LibroRepo {
     if (error) throw error;
     return data;
   }
+  // Llama a una vista en SQL 
+  async list_top_5_books_authors(){
+    const {data, error} = await supabase
+    .from('listar_top_5_libros_autores')
+    .select('*')
+    .order('total_libros',{ascending : false});
+   
+  if (error) throw error;
+    return data;
+  }
+
+  async most_lent_books_by_genre(){
+    const {error} = await supabase
+    .from('top_libros_por_categoria')
+    .select('*')
+    .order('total_libros', {ascending : false});
+
+  if (error) throw error;
+    return data;
+  }
 }
