@@ -166,7 +166,6 @@ INSERT INTO libro_autor (libro_id, autor_id) VALUES
 (15, 12),
 (6, 1),
 (4, 1),
-(10, 9),
 (11, 7),
 (15, 5);
 
