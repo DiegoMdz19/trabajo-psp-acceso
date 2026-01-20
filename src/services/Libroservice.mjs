@@ -1,8 +1,10 @@
-import { LibroRepository } from '../repositories/LibroRepository.js';
+import { LibroRepo } from '../repositories/LibroRepo.mjs';
+import { LibroAutorRepo } from '../repositories/LibroAutorRepository.js';
 
 export class LibroService {
   constructor() {
-    this.libroRepository = new LibroRepository();
+    this.libroRepository = new LibroRepo();
+    this.libroAutorRepository = new LibroAutorRepo();
   }
 
  
