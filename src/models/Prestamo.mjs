@@ -1,7 +1,7 @@
 export class Prestamo {
     constructor(data) {
 
-        const estadosValidos = ['activo', 'devuelto', 'vencido']
+        const estadosValidos = ['activo', 'devuelto']
 
         if (!usuario_id) {
             throw new Error ("ID de usuario es obligatorio")
