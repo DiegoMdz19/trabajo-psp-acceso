@@ -5,7 +5,7 @@ export class AutorRepo{
 
   async searchAll() {
     const { data, error } = await supabase
-      .from('Autor')
+      .from('autor')
       .select(`*`)
       .order('Nombre');
     
@@ -15,7 +15,7 @@ export class AutorRepo{
 
   async searchById(id) {
     const { data, error } = await supabase
-      .from('Autor')
+      .from('autor')
       .select(`*`)
       .eq('id', id)
       .single();
@@ -26,7 +26,7 @@ export class AutorRepo{
 
   async searchByNombre(nombre) {
     const { data, error } = await supabase
-      .from('Autor')
+      .from('autor')
       .select('*')
       .eq('nombre', nombre)
       .single();
@@ -38,7 +38,7 @@ export class AutorRepo{
 
   async create(autor) {
     const { data, error } = await supabase
-      .from('Autor')
+      .from('autor')
       .insert([{
         nombre: autor.nombre,
         email: autor.email,
@@ -61,7 +61,7 @@ async update(id, autor) {
     };
 
     const { data, error } = await supabase
-      .from('Autor')
+      .from('autor')
       .update(updateData)
       .eq('id', id)
       .select()
@@ -73,7 +73,7 @@ async update(id, autor) {
 
   async delete(id) {
     const { error } = await supabase
-      .from('Autor')
+      .from('autor')
       .delete()
       .eq('id', id);
     
