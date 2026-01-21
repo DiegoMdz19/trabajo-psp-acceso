@@ -100,6 +100,32 @@ BEFORE UPDATE ON prestamo
 FOR EACH ROW
 EXECUTE FUNCTION update_updated_at_column();
 
+-- Vista para usuarios top por prestaciones
+CREATE VIEW usuarios_top_prestaciones AS
+SELECT u.usuario_id, u.nombre, u.email, COUNT(p.prestamo_id) AS total_prestamos
+FROM usuario u
+LEFT JOIN prestamo p ON u.usuario_id = p.usuario_id
+GROUP BY u.usuario_id, u.nombre, u.email
+ORDER BY total_prestamos DESC;
+
+-- Vista para top 5 libros autores
+CREATE VIEW listar_top_5_libros_autores AS
+SELECT a.autor_id, a.nombre, a.email, COUNT(la.libro_id) AS total_libros
+FROM autor a
+JOIN libro_autor la ON a.autor_id = la.autor_id
+GROUP BY a.autor_id, a.nombre, a.email
+ORDER BY total_libros DESC
+LIMIT 5;
+
+-- Vista para top libros por categoria (most lent books by genre)
+CREATE VIEW top_libros_por_categoria AS
+SELECT l.genero, COUNT(p.prestamo_id) AS total_prestamos
+FROM libro l
+LEFT JOIN prestamo p ON l.libro_id = p.libro_id
+WHERE l.genero IS NOT NULL
+GROUP BY l.genero
+ORDER BY total_prestamos DESC;
+
 --INGESTA
 
 INSERT INTO autor (nombre, email, biografia, fecha_nacimiento, nacionalidad) VALUES
