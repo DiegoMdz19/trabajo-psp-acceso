@@ -5,7 +5,7 @@ export class LibroRepo {
   
   async searchAll() {
     const { data, error } = await supabase
-      .from('Libro')
+      .from('libro')
       .select(`*`)
       .order('titulo');
     
@@ -15,7 +15,7 @@ export class LibroRepo {
 
   async searchById(id) {
     const { data, error } = await supabase
-      .from('Libro')
+      .from('libro')
       .select(`*`)
       .eq('id', id)
       .single();
@@ -26,7 +26,7 @@ export class LibroRepo {
 
   async searchByIsbn(isbn) {
     const { data, error } = await supabase
-      .from('Libro')
+      .from('libro')
       .select('*')
       .eq('isbn', isbn)
       .maybeSingle();
@@ -38,11 +38,12 @@ export class LibroRepo {
 
   async create(libro) {
     const { data, error } = await supabase
-      .from('Libro')
+      .from('libro')
       .insert([{
         titulo: libro.titulo,
         isbn: libro.isbn,
         stock: libro.stock || 0,
+        genero: libro.genero || null,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       }])
@@ -60,7 +61,7 @@ export class LibroRepo {
     };
 
     const { data, error } = await supabase
-      .from('Libro')
+      .from('libro')
       .update(updateData)
       .eq('id', id)
       .select()
@@ -72,7 +73,7 @@ export class LibroRepo {
 
   async delete(id) {
     const { error } = await supabase
-      .from('Libro')
+      .from('libro')
       .delete()
       .eq('id', id);
     
@@ -82,7 +83,7 @@ export class LibroRepo {
 
   async updateStock(id, cantidad) {
     const { data, error } = await supabase
-      .from('Libro')
+      .from('libro')
       .update({ 
         stock: cantidad,
         updated_at: new Date().toISOString()
@@ -113,7 +114,7 @@ export class LibroRepo {
 
   async searchDispo() {
     const { data, error } = await supabase
-      .from('Libro')
+      .from('libro')
       .select('*')
       .gt('stock', 0)
       .order('titulo');
@@ -125,7 +126,7 @@ export class LibroRepo {
 
   async searchByTitulo(titulo) {
     const { data, error } = await supabase
-      .from('Libro')
+      .from('libro')
       .select('*')
       .ilike('titulo', `%${titulo}%`)
       .order('titulo');

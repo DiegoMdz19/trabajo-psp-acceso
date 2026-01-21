@@ -6,11 +6,11 @@ export class PrestamoRepository {
 
   async searchAll() {
     const { data, error } = await supabase
-      .from('Prestamo')
+      .from('prestamo')
       .select(`
         *,
-        Usuario(id, nombre, email),
-        Libro(id, titulo, isbn)
+        usuario(id, nombre, email),
+        libro(id, titulo, isbn)
       `)
       .order('fecha_prestamo', { ascending: false });
     
@@ -21,11 +21,11 @@ export class PrestamoRepository {
 
   async searchById(id) {
     const { data, error } = await supabase
-      .from('Prestamo')
+      .from('prestamo')
       .select(`
         *,
-        Usuario(id, nombre, email),
-        Libro(id, titulo, isbn, stock)
+        usuario(id, nombre, email),
+        libro(id, titulo, isbn, stock)
       `)
       .eq('id', id)
       .single();
@@ -37,7 +37,7 @@ export class PrestamoRepository {
  
   async create(prestamo) {
     const { data, error } = await supabase
-      .from('Prestamo')
+      .from('prestamo')
       .insert([{
         usuario_id: prestamo.usuario_id,
         libro_id: prestamo.libro_id,
@@ -50,8 +50,8 @@ export class PrestamoRepository {
       }])
       .select(`
         *,
-        Usuario(id, nombre, email),
-        Libro(id, titulo, isbn)
+        usuario(id, nombre, email),
+        libro(id, titulo, isbn)
       `)
       .single();
     
@@ -67,13 +67,13 @@ export class PrestamoRepository {
     };
 
     const { data, error } = await supabase
-      .from('Prestamo')
+      .from('prestamo')
       .update(updateData)
       .eq('id', id)
       .select(`
         *,
-        Usuario(id, nombre, email),
-        Libro(id, titulo, isbn)
+        usuario(id, nombre, email),
+        libro(id, titulo, isbn)
       `)
       .single();
     
@@ -84,7 +84,7 @@ export class PrestamoRepository {
 
   async delete(id) {
     const { error } = await supabase
-      .from('Prestamo')
+      .from('prestamo')
       .delete()
       .eq('id', id);
     
@@ -95,10 +95,10 @@ export class PrestamoRepository {
 
   async searchByUsuarioId(usuarioId) {
     const { data, error } = await supabase
-      .from('Prestamo')
+      .from('prestamo')
       .select(`
         *,
-        Libro(id, titulo, isbn)
+        libro(id, titulo, isbn)
       `)
       .eq('usuario_id', usuarioId)
       .order('fecha_prestamo', { ascending: false });
@@ -110,10 +110,10 @@ export class PrestamoRepository {
 
   async searchByLibroId(libroId) {
     const { data, error } = await supabase
-      .from('Prestamo')
+      .from('prestamo')
       .select(`
         *,
-        Usuario(id, nombre, email)
+        usuario(id, nombre, email)
       `)
       .eq('libro_id', libroId)
       .order('fecha_prestamo', { ascending: false });
@@ -124,11 +124,11 @@ export class PrestamoRepository {
 
   async searchPrestamoActivo() {
     const { data, error } = await supabase
-      .from('Prestamo')
+      .from('prestamo')
       .select(`
         *,
-        Usuario(id, nombre, email),
-        Libro(id, titulo, isbn, stock)
+        usuario(id, nombre, email),
+        libro(id, titulo, isbn, stock)
       `)
       .eq('estado', 'activo')
       .is('fecha_devolucion_real', null)
@@ -141,11 +141,11 @@ export class PrestamoRepository {
 
   async searchPrestamoDevuelto() {
     const { data, error } = await supabase
-      .from('Prestamo')
+      .from('prestamo')
       .select(`
         *,
-        Usuario(id, nombre, email),
-        Libro(id, titulo, isbn)
+        usuario(id, nombre, email),
+        libro(id, titulo, isbn)
       `)
       .eq('estado', 'devuelto')
       .not('fecha_devolucion_real', 'is', null)
@@ -158,7 +158,7 @@ export class PrestamoRepository {
 
   async returnBook(id) {
     const { data, error } = await supabase
-      .from('Prestamo')
+      .from('prestamo')
       .update({
         fecha_devolucion_real: new Date().toISOString(),
         estado: 'devuelto',
@@ -167,8 +167,8 @@ export class PrestamoRepository {
       .eq('id', id)
       .select(`
         *,
-        Usuario(id, nombre, email),
-        Libro(id, titulo, isbn)
+        usuario(id, nombre, email),
+        libro(id, titulo, isbn)
       `)
       .single();
     
@@ -177,7 +177,7 @@ export class PrestamoRepository {
   }
   async searchByNacionalidad(nacionalidad) {
     const { data, error } = await supabase
-      .from('Autor')
+      .from('autor')
       .select('*')
       .eq('nacionalidad', nacionalidad)
       .maybeSingle();
