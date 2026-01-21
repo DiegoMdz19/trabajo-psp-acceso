@@ -96,12 +96,12 @@ export class LibroRepo {
     return data;
   }
 
-  async subirStock(id, cantidad = 1) {
+  async incrementStock(id, cantidad = 1) {
     const libro = await this.searchById(id);
     return await this.updateStock(id, libro.stock + cantidad);
   }
 
-  async bajarStock(id, cantidad = 1) {
+  async decrementStock(id, cantidad = 1) {
     const libro = await this.searchById(id);
     const newStock = libro.stock - cantidad;
     

@@ -122,7 +122,7 @@ export class PrestamoRepo {
     return data;
   }
 
-  async searchPrestamoActivo() {
+  async searchActiveLoans() {
     const { data, error } = await supabase
       .from('prestamo')
       .select(`
@@ -139,7 +139,7 @@ export class PrestamoRepo {
   }
 
 
-  async searchPrestamoDevuelto() {
+  async searchReturnedLoans() {
     const { data, error } = await supabase
       .from('prestamo')
       .select(`
