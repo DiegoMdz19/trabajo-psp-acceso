@@ -2,6 +2,5 @@
 Miembro Responsabilidades
 Miembro 1  Diseño de BD, setup inicial, modelos, controllers
 Miembro 2  Repositorios, servicios, CRUD básico
-Miembro 3  Consultas avanzadas, caché Redis, testing, documentación
+Miembro 3  Consultas avanzadas, caché Redis, testing, documentación, rutas
 
-midlewares y utils FALTA
