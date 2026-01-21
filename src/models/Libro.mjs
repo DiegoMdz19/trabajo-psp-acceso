@@ -8,6 +8,7 @@ export class Libro {
         this.titulo = data.titulo.toUpperCase();
         this.isbn = data.isbn.trim().toUpperCase();
         this.stock = data.stock;
+        this.genero = data.genero;
         this.created_at = data.created_at ?? new Date().toISOString();
         this.updated_at = data.updated_at ?? new Date().toISOString();
 
@@ -18,6 +19,7 @@ export class Libro {
             titulo: this.titulo,
             isbn: this.isbn,
             stock: this.stock, 
+            genero: this.genero,
             created_at: this.created_at,
             updated_at: this.updated_at
         };
@@ -28,6 +30,7 @@ export class Libro {
             titulo: this.titulo,
             isbn: this.isbn,
             stock:this.stock,
+            genero:this.genero,
             created_at: this.created_at,
             updated_at: this.updated_at
         }
