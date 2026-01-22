@@ -112,6 +112,14 @@ export class LibroRepo {
     return await this.updateStock(id, newStock);
   }
 
+  async bajarStock(id, cantidad = 1) {
+    return await this.decrementStock(id, cantidad);
+  }
+
+  async subirStock(id, cantidad = 1) {
+    return await this.incrementStock(id, cantidad);
+  }
+
 
 
   async searchByTitulo(titulo) {
@@ -119,6 +127,17 @@ export class LibroRepo {
       .from('libro')
       .select('*')
       .ilike('titulo', `%${titulo}%`)
+      .order('titulo');
+    
+    if (error) throw error;
+    return data;
+  }
+
+  async searchAllWithStock() {
+    const { data, error } = await supabase
+      .from('libro')
+      .select('*')
+      .gt('stock', 0)
       .order('titulo');
     
     if (error) throw error;

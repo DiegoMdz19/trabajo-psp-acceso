@@ -3,11 +3,11 @@ export class Prestamo {
 
         const estadosValidos = ['activo', 'devuelto']
 
-        if (!usuario_id) {
+        if (!data.usuario_id) {
             throw new Error ("ID de usuario es obligatorio")
         }
 
-        if (!libro_id) {
+        if (!data.libro_id) {
             throw new Error ("ID de libro es obligatorio")
         }
 

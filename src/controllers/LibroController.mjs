@@ -168,6 +168,24 @@ export class LibroController {
     }
   }
 
+  // Listar libros con stock disponible
+  async listAvailable(req, res) {
+    try {
+      const data = await this.libroRepo.searchAllWithStock();
+      res.json({
+        success: true,
+        data: data,
+        message: 'Libros disponibles obtenidos correctamente'
+      });
+    } catch (error) {
+      console.error('Error al obtener libros disponibles:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error interno del servidor'
+      });
+    }
+  }
+
   // Lista de top 5 autores con más libros prestados
 
   async getTopAuthors(req, res) {

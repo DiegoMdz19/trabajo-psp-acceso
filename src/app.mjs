@@ -32,6 +32,12 @@ app.use('/api', routes);
 // MANEJO DE ERRORES 404
 // ============================================
 
+app.use((req, res, next) => {
+  console.log('➡️ Request:', req.method, req.path);
+  next();
+});
+
+
 app.use((req, res) => {
   res.status(404).json({
     error: 'Ruta no encontrada',

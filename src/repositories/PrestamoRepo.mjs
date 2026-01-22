@@ -48,11 +48,7 @@ export class PrestamoRepo {
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       }])
-      .select(`
-        *,
-        usuario(usuario_id, nombre, email),
-        libro(libro_id, titulo, isbn)
-      `)
+      .select('*')
       .single();
     
     if (error) throw error;
