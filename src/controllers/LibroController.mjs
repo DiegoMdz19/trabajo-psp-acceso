@@ -1,11 +1,10 @@
 import { LibroRepo } from '../repositories/LibroRepo.mjs';
-import { LibroService } from '../services/Libroservice.mjs';
 import {Libro} from '../models/Libro.mjs';
+import redis from '../config/redis.mjs';
 
 export class LibroController {
   constructor() {
     this.libroRepo = new LibroRepo();
-    this.libroService = new LibroService();
   }
 
   // GET - Buscar libro por ISBN
@@ -191,8 +190,26 @@ export class LibroController {
   // Lista de top 5 autores con más libros prestados
 
   async getTopAuthors(req, res) {
+    const cacheKey = 'top_5_books_authors_controller';
     try {
-      const data = await this.libroService.listTop5BooksAuthors();
+      // Intentar obtener del cache
+      const cachedData = await redis.get(cacheKey);
+      if (cachedData) {
+        console.log('Datos obtenidos del cache Redis en controlador');
+        return res.json({
+          success: true,
+          data: JSON.parse(cachedData),
+          message: 'Top 5 autores por libros obtenidos correctamente (desde cache)'
+        });
+      }
+
+      // Si no está en cache, obtener del repositorio
+      const data = await this.libroRepo.list_top_5_books_authors();
+
+      // Guardar en cache por 5 minutos (300 segundos)
+      await redis.setEx(cacheKey, 300, JSON.stringify(data));
+      console.log('Datos guardados en cache Redis en controlador');
+
       res.json({
         success: true,
         data: data,
@@ -210,8 +227,26 @@ export class LibroController {
   // Generos con más préstamos
   
   async getLentByGenre(req, res) {
+    const cacheKey = 'most_lent_books_by_genre_controller';
     try {
-      const data = await this.libroService.mostLentBooksByGenre();
+      // Intentar obtener del cache
+      const cachedData = await redis.get(cacheKey);
+      if (cachedData) {
+        console.log('Datos obtenidos del cache Redis en controlador');
+        return res.json({
+          success: true,
+          data: JSON.parse(cachedData),
+          message: 'Préstamos por género obtenidos correctamente (desde cache)'
+        });
+      }
+
+      // Si no está en cache, obtener del repositorio
+      const data = await this.libroRepo.most_lent_books_by_genre();
+
+      // Guardar en cache por 5 minutos (300 segundos)
+      await redis.setEx(cacheKey, 300, JSON.stringify(data));
+      console.log('Datos guardados en cache Redis en controlador');
+
       res.json({
         success: true,
         data: data,

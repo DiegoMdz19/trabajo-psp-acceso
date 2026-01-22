@@ -7,7 +7,7 @@ export class UsuarioRepo{
     const { data, error } = await supabase
       .from('usuario')
       .select(`*`)
-      .order('Nombre');
+      .order('nombre');
     
     if (error) throw error;
     return data;
