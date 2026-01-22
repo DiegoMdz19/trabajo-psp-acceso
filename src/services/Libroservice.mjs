@@ -1,5 +1,5 @@
 import { LibroRepo } from '../repositories/LibroRepo.mjs';
-import { LibroAutorRepo } from '../repositories/LibroAutorRepository.js';
+import { LibroAutorRepo } from '../repositories/LibroAutorRepository.mjs';
 
 export class LibroService {
   constructor() {
@@ -167,5 +167,8 @@ export class LibroService {
     return await this.libroRepository.updateStock(id, cantidad);
   }
 
-
+  async removeAutorFromLibro(libroId, autorId) {
+    await this.getLibroById(libroId);
+    return await this.libroAutorRepository.removeAutorFromLibro(libroId, autorId);
+  }
 }

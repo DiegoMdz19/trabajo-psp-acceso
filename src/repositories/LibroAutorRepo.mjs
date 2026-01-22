@@ -1,37 +1,16 @@
 import { supabase } from '../config/database.mjs';
 
 
-export class LibroAutorRepo {
+export class LibroAutorRepository {
+  
 
-async searchAll() {
-    const { data, error } = await supabase
-      .from('libro_autor')
-      .select(`*`)
-      .order('titulo');
-    
-    if (error) throw error;
-    return data;
-  }
-
-  async searchById(id) {
-    const { data, error } = await supabase
-      .from('libro_autor')
-      .select(`*`)
-      .eq('id', id)
-      .single();
-    
-    if (error) throw error;
-    return data;
-  }
-
-  async create(libro_autor) {
+  async addAutorToLibro(libroId, autorId) {
     const { data, error } = await supabase
       .from('libro_autor')
       .insert([{
-        id_libro: libro_autor.id_libro,
-        id_autor: libro_autor.id_autor,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        libro_id: libroId,
+        autor_id: autorId,
+        created_at: new Date().toISOString()
       }])
       .select()
       .single();
@@ -40,34 +19,95 @@ async searchAll() {
     return data;
   }
 
-  async update(id, libro_autor) {
-    const updateData = {
-      ...libro_autor,
-      updated_at: new Date().toISOString()
-    };
 
-    const { data, error } = await supabase
-      .from('libro_autor')
-      .update(updateData)
-      .eq('id', id)
-      .select()
-      .single();
-    
-    if (error) throw error;
-    return data;
-  }
-
-  async delete(id) {
+  async removeAutorFromLibro(libroId, autorId) {
     const { error } = await supabase
       .from('libro_autor')
       .delete()
-      .eq('id', id);
+      .eq('libro_id', libroId)
+      .eq('autor_id', autorId);
     
     if (error) throw error;
     return true;
   }
 
 
+  async getAutoresByLibroId(libroId) {
+    const { data, error } = await supabase
+      .from('libro_autor')
+      .select(`
+        autor(*)
+      `)
+      .eq('libro_id', libroId);
+    
+    if (error) throw error;
+    return data.map(item => item.Autor);
+  }
+
+ 
+  async getLibrosByAutorId(autorId) {
+    const { data, error } = await supabase
+      .from('libro_autor')
+      .select(`
+        libro(*)
+      `)
+      .eq('autor_id', autorId);
+    
+    if (error) throw error;
+    return data.map(item => item.Libro);
+  }
+
+ 
+  async exists(libroId, autorId) {
+    const { data, error } = await supabase
+      .from('libro_autor')
+      .select('*')
+      .eq('libro_id', libroId)
+      .eq('autor_id', autorId)
+      .maybeSingle();
+    
+    if (error) throw error;
+    return data !== null;
+  }
 
 
+  async addMultipleAutoresToLibro(libroId, autorIds) {
+    const inserts = autorIds.map(autorId => ({
+      libro_id: libroId,
+      autor_id: autorId,
+      created_at: new Date().toISOString()
+    }));
+
+    const { data, error } = await supabase
+      .from('libro_autor')
+      .insert(inserts)
+      .select();
+    
+    if (error) throw error;
+    return data;
+  }
+
+
+  async removeAllAutoresFromLibro(libroId) {
+    const { error } = await supabase
+      .from('libro_autor')
+      .delete()
+      .eq('libro_id', libroId);
+    
+    if (error) throw error;
+    return true;
+  }
+
+
+  async removeAllLibrosFromAutor(autorId) {
+    const { error } = await supabase
+      .from('libro_autor')
+      .delete()
+      .eq('autor_id', autorId);
+    
+    if (error) throw error;
+    return true;
+  }
+
+ 
 }

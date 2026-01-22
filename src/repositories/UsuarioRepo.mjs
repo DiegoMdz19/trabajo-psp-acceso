@@ -17,7 +17,7 @@ export class UsuarioRepo{
     const { data, error } = await supabase
       .from('usuario')
       .select(`*`)
-      .eq('id', id)
+      .eq('usuario_id', id)
       .single();
     
     if (error) throw error;
@@ -61,7 +61,7 @@ async update(id, usuario) {
     const { data, error } = await supabase
       .from('usuario')
       .update(updateData)
-      .eq('id', id)
+      .eq('usuario_id', id)
       .select()
       .single();
     
@@ -73,7 +73,7 @@ async update(id, usuario) {
     const { error } = await supabase
       .from('usuario')
       .delete()
-      .eq('id', id);
+      .eq('usuario_id', id);
     
     if (error) throw error;
     return true;
