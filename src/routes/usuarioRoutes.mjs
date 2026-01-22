@@ -45,14 +45,14 @@ router.delete('/:id', apiKeyMiddleware, controller.delete);
  * Busca usuarios por email
  * Requiere: API Key válida
  */
-router.get('/search/email/:email', apiKeyMiddleware, controller.searchByEmail);
+//router.get('/search/email/:email', apiKeyMiddleware, controller.searchByEmail);
 
 /**
  * GET /api/usuarios/search/nombre/:nombre
  * Busca usuarios por nombre
  * Requiere: API Key válida
  */
-router.get('/search/nombre/:nombre', apiKeyMiddleware, controller.searchByNombre);
+//router.get('/search/nombre/:nombre', apiKeyMiddleware, controller.searchByNombre);
 
 /**
  * GET /api/usuarios/top

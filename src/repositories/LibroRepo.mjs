@@ -112,16 +112,6 @@ export class LibroRepo {
     return await this.updateStock(id, newStock);
   }
 
-  async searchDispo() {
-    const { data, error } = await supabase
-      .from('libro')
-      .select('*')
-      .gt('stock', 0)
-      .order('titulo');
-    
-    if (error) throw error;
-    return data;
-  }
 
 
   async searchByTitulo(titulo) {

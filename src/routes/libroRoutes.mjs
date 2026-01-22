@@ -45,21 +45,21 @@ router.delete('/:id', apiKeyMiddleware, controller.delete);
  * Busca libros por ISBN
  * Requiere: API Key válida
  */
-router.get('/search/isbn/:isbn', apiKeyMiddleware, controller.searchByIsbn);
+//router.get('/search/isbn/:isbn', apiKeyMiddleware, controller.searchByIsbn);
 
 /**
  * GET /api/libros/search/titulo/:titulo
  * Busca libros por título
  * Requiere: API Key válida
  */
-router.get('/search/titulo/:titulo', apiKeyMiddleware, controller.searchByTitulo);
+//router.get('/search/titulo/:titulo', apiKeyMiddleware, controller.searchByTitulo);
 
 /**
  * GET /api/libros/disponibles
  * Lista libros disponibles
  * Requiere: API Key válida
  */
-router.get('/disponibles', apiKeyMiddleware, controller.listAvailable);
+//router.get('/disponibles', apiKeyMiddleware, controller.listAvailable);
 
 /**
  * GET /api/libros/top-autores

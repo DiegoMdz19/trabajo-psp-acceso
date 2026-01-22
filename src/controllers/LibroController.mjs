@@ -1,9 +1,72 @@
 import { LibroRepo } from '../repositories/LibroRepo.mjs';
+import {Libro} from '../models/Libro.mjs';
 
 export class LibroController {
   constructor() {
     this.libroRepo = new LibroRepo();
   }
+
+  // GET - Buscar libro por ISBN
+  async obtenerPorIsbn(req, res) {
+    try {
+        const {isbn} = req.params;
+
+        if (!isbn || isNaN(isbn)) {
+            return res.status(400).json({
+                error: 'ISBN no válido',
+                mensaje: 'El ISBN debe ser numérico'
+            });
+        }
+        const libro  = await this.libroRepo.searchByIsbn(Number(isbn));
+
+        if(!libro) {
+            return res.status(404).json({
+                error: 'Libro no encontrado',
+                mensaje: `No existe un libro con el ISBN ${isbn}`
+            });
+        }
+
+        res.status(200).json({
+            datos: new Libro(libro).toPublic(),
+            mensaje: 'Libro obtenido correctamente'
+        });
+    } catch (error) {
+        res.status(500).json({
+            error: 'Error al obtener el libro',
+            mensaje: error.message
+        });
+    }
+}
+
+
+
+  // GET- Buscar libros por título
+  async buscarPorTitulo (req, res) {
+    try {
+        const {titulo} = req.params;
+
+        if (!titulo || titulo.length < 2) {
+            return res.status(400).json({
+                error: 'Titulo no válido',
+                mensaje: 'El titulo debe tener mínimo 2 letras'
+            });
+        }
+        
+        const libros = await this.libroRepo.searchByTitulo(titulo);
+        const librosPublic = libros.map(libro => new Libro(libro).toPublic());
+
+        res.status(200).json({
+            datos: librosPublic,
+            mensaje: 'Busqueda realizada correctamente'
+        });
+    } catch (error) {
+        res.status(500).json({
+            error: 'Error al buscar libros',
+            mensaje: error.message
+        })
+    }
+}
+
 
   // Listar todos los libros
   async listAll(req, res) {

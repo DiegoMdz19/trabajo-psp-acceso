@@ -1,10 +1,38 @@
 import { UsuarioRepo } from '../repositories/UsuarioRepo.mjs';
+import {Usuario} from '../models/Usuario.mjs';
 
 export class UsuarioController {
   constructor() {
     this.usuarioRepo = new UsuarioRepo();
   }
 
+
+// Buscar usuario por nombre
+async buscarPorNombre (req, res) {
+  try {
+      const {nombre} = req.params;
+
+      if (!nombre || nombre.trim().length < 2) {
+          return res.status(400).json({
+              error: 'Nombre no valido',
+              mensaje: 'El nombre debe tener mínimo 2 letras'
+          });
+      }
+      
+      const usuarios = await this.usuarioRepo.searchByNombre(nombre);
+      const usuarioPublic = usuarios.map(usuario => new Usuario(usuario).toPublic());
+
+      res.status(200).json({
+          datos: usuarioPublic,
+          mensaje: 'Busqueda realizada correctamente'
+      });
+  } catch (error) {
+      res.status(500).json({
+          error: 'Error al buscar usuarios',
+          mensaje: error.message
+      })
+  }
+}
   // Listar todos los usuarios
   async listAll(req, res) {
     try {

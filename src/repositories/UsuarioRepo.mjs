@@ -24,16 +24,6 @@ export class UsuarioRepo{
     return data;
   }
 
-  async searchByEmail(email) {
-    const { data, error } = await supabase
-      .from('usuario')
-      .select('*')
-      .ilike('email', `%${email}%`)
-      .order('email');
-    
-    if (error) throw error;
-    return data;
-  }
 
   async searchByNombre(nombre) {
     const { data, error } = await supabase
