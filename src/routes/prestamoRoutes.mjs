@@ -2,6 +2,7 @@ import express from 'express';
 import { PrestamoController } from '../controllers/PrestamoController.mjs';
 import { apiKeyMiddleware } from '../middlewares/apiKeyMiddleware.mjs';
 import { adminMiddleware } from '../middlewares/adminMiddleware.mjs';
+import { apiKeyMiddleware } from '../middlewares/apiKeyMiddleware.mjs';
 
 const router = express.Router();
 const controller = new PrestamoController();
@@ -25,7 +26,7 @@ router.get('/:id', adminMiddleware, controller.obtenerPrestamo.bind(controller))
  * Crea un nuevo préstamo
  * Requiere: API Key válida
  */
-router.post('/', adminMiddleware, controller.crearPrestamo.bind(controller));
+router.post('/', apiKeyMiddleware, controller.crearPrestamo.bind(controller));
 
 /**
  * PUT /api/prestamos/:id/devolver

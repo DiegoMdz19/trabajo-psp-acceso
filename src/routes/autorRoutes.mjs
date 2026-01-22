@@ -32,14 +32,14 @@ router.get('/:id', apiKeyMiddleware, controller.obtenerAutor.bind(controller));
  * Crea un nuevo autor
  * Requiere: API Key válida
  */
-router.post('/', adminMiddleware, controller.crearAutor.bind(controller));
+router.post('/', apiKeyMiddleware, controller.crearAutor.bind(controller));
 
 /**
  * PUT /api/autores/:id
  * Actualiza un autor
  * Requiere: API Key válida
  */
-router.put('/:id', adminMiddleware, controller.actualizarAutor.bind(controller));
+router.put('/:id', apiKeyMiddleware, controller.actualizarAutor.bind(controller));
 
 /**
  * DELETE /api/autores/:id

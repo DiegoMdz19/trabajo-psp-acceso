@@ -39,7 +39,7 @@ router.get('/', (req, res) => {
         'GET /api/usuarios/:id - Obtener usuario por ID',
         'POST /api/usuarios - Crear usuario',
         'PUT /api/usuarios/:id - Actualizar usuario',
-        'DELETE /api/usuarios/:id - Eliminar usuario',
+        'DELETE /api/usuarios/:id - Eliminar usuario (requiere admin)',
         'GET /api/usuarios/search/email/:email - Buscar usuarios por email',
         'GET /api/usuarios/search/nombre/:nombre - Buscar usuario por nombre',
         'GET /api/usuarios/top - Top usuarios por préstamos',
@@ -48,7 +48,7 @@ router.get('/', (req, res) => {
         'GET /api/libros/:id/autores - Obtener autores de un libro específico',
         'POST /api/libros - Crear libro',
         'PUT /api/libros/:id - Actualizar libro',
-        'DELETE /api/libros/:id - Eliminar libro',
+        'DELETE /api/libros/:id - Eliminar libro (requiere admin)',
         'GET /api/libros/search/isbn/:isbn - Buscar libro por ISBN',
         'GET /api/libros/search/titulo/:titulo - Buscar libros por título',
         'GET /api/libros/disponibles - Listar libros disponibles',
@@ -63,7 +63,7 @@ router.get('/', (req, res) => {
         'GET /api/autores/:id - Obtener autor por ID',
         'POST /api/autores - Crear autor',
         'PUT /api/autores/:id - Actualizar autor',
-        'DELETE /api/autores/:id - Eliminar autor',
+        'DELETE /api/autores/:id - Eliminar autor (requiere admin)',
         'GET /api/autores/buscar/:nombre - Buscar autores por nombre'
       ],
       admin: [

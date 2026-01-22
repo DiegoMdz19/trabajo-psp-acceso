@@ -67,14 +67,14 @@ router.get('/:id/autores', apiKeyMiddleware, controller.getAutoresByLibro.bind(c
  * Crea un nuevo libro
  * Requiere: API Key válida
  */
-router.post('/', adminMiddleware, controller.create.bind(controller));
+router.post('/', apiKeyMiddleware, controller.create.bind(controller));
 
 /**
  * PUT /api/libros/:id
  * Actualiza un libro
  * Requiere: API Key válida
  */
-router.put('/:id', adminMiddleware, controller.update.bind(controller));
+router.put('/:id', apiKeyMiddleware, controller.update.bind(controller));
 
 /**
  * DELETE /api/libros/:id
