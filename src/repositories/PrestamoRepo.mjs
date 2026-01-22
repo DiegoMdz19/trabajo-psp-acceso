@@ -1,7 +1,7 @@
 import { supabase } from '../config/supabase.js';
 
 
-export class PrestamoRepository {
+export class PrestamoRepo {
   
 
   async searchAll() {
