@@ -1,10 +1,12 @@
 import { LibroRepo } from '../repositories/LibroRepo.mjs';
+import { LibroAutorRepository } from '../repositories/LibroAutorRepo.mjs';
 import {Libro} from '../models/Libro.mjs';
 import redis from '../config/redis.mjs';
 
 export class LibroController {
   constructor() {
     this.libroRepo = new LibroRepo();
+    this.libroAutorRepo = new LibroAutorRepository();
   }
 
   // GET - Buscar libro por ISBN
@@ -254,6 +256,44 @@ export class LibroController {
       });
     } catch (error) {
       console.error('Error al obtener préstamos por género:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error interno del servidor'
+      });
+    }
+  }
+
+  // GET - Obtener autores de un libro específico
+  async getAutoresByLibro(req, res) {
+    try {
+      const { id } = req.params;
+
+      if (!id || isNaN(id)) {
+        return res.status(400).json({
+          error: 'ID no válido',
+          mensaje: 'El ID debe ser numérico'
+        });
+      }
+
+      // Verificar que el libro existe
+      const libro = await this.libroRepo.searchById(Number(id));
+      if (!libro) {
+        return res.status(404).json({
+          error: 'Libro no encontrado',
+          mensaje: `No existe un libro con el ID ${id}`
+        });
+      }
+
+      // Obtener autores del libro
+      const autores = await this.libroAutorRepo.getAutoresByLibroId(Number(id));
+
+      res.status(200).json({
+        success: true,
+        data: autores,
+        message: 'Autores del libro obtenidos correctamente'
+      });
+    } catch (error) {
+      console.error('Error al obtener autores del libro:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor'

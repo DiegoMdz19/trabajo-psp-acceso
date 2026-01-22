@@ -45,6 +45,7 @@ router.get('/', (req, res) => {
         'GET /api/usuarios/top - Top usuarios por préstamos',
         'GET /api/libros - Listar todos los libros',
         'GET /api/libros/:id - Obtener libro por ID',
+        'GET /api/libros/:id/autores - Obtener autores de un libro específico',
         'POST /api/libros - Crear libro',
         'PUT /api/libros/:id - Actualizar libro',
         'DELETE /api/libros/:id - Eliminar libro',

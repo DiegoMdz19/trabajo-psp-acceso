@@ -56,6 +56,13 @@ router.get('/', controller.listAll.bind(controller));
 router.get('/:id', apiKeyMiddleware, controller.getById.bind(controller));
 
 /**
+ * GET /api/libros/:id/autores
+ * Obtiene los autores de un libro específico
+ * Requiere: API Key válida
+ */
+router.get('/:id/autores', apiKeyMiddleware, controller.getAutoresByLibro.bind(controller));
+
+/**
  * POST /api/libros
  * Crea un nuevo libro
  * Requiere: API Key válida
