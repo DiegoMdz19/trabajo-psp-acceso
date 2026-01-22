@@ -7,17 +7,17 @@ export class AutorRepo{
     const { data, error } = await supabase
       .from('autor')
       .select(`*`)
-      .order('Nombre');
+      .order('nombre');
     
     if (error) throw error;
     return data;
   }
 
-  async searchById(id) {
+  async searchByid(autor_id) {
     const { data, error } = await supabase
       .from('autor')
       .select(`*`)
-      .eq('id', id)
+      .eq('autor_autor_id', autor_id)
       .single();
     
     if (error) throw error;
@@ -44,7 +44,7 @@ export class AutorRepo{
         email: autor.email,
         biografia: autor.biografia || null,
         fecha_nacimiento: autor.fecha_nacimiento,
-        nacionalidad: autor.nacionalidad,
+        nacionalautor_idad: autor.nacionalautor_idad,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       }])
@@ -54,7 +54,7 @@ export class AutorRepo{
     if (error) throw error;
     return data;
   }
-async update(id, autor) {
+async update(autor_id, autor) {
     const updateData = {
       ...autor,
       updated_at: new Date().toISOString()
@@ -63,7 +63,7 @@ async update(id, autor) {
     const { data, error } = await supabase
       .from('autor')
       .update(updateData)
-      .eq('id', id)
+      .eq('autor_id', autor_id)
       .select()
       .single();
     
@@ -71,11 +71,11 @@ async update(id, autor) {
     return data;
   }
 
-  async delete(id) {
+  async delete(autor_id) {
     const { error } = await supabase
       .from('autor')
       .delete()
-      .eq('id', id);
+      .eq('autor_id', autor_id);
     
     if (error) throw error;
     return true;

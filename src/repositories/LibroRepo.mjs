@@ -17,7 +17,7 @@ export class LibroRepo {
     const { data, error } = await supabase
       .from('libro')
       .select(`*`)
-      .eq('id', id)
+      .eq('libro_id', id)
       .single();
     
     if (error) throw error;
@@ -63,7 +63,7 @@ export class LibroRepo {
     const { data, error } = await supabase
       .from('libro')
       .update(updateData)
-      .eq('id', id)
+      .eq('libro_id', id)
       .select()
       .single();
     
@@ -75,7 +75,7 @@ export class LibroRepo {
     const { error } = await supabase
       .from('libro')
       .delete()
-      .eq('id', id);
+      .eq('libro_id', id);
     
     if (error) throw error;
     return true;
@@ -88,7 +88,7 @@ export class LibroRepo {
         stock: cantidad,
         updated_at: new Date().toISOString()
       })
-      .eq('id', id)
+      .eq('libro_id', id)
       .select()
       .single();
     

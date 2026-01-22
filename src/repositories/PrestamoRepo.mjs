@@ -9,8 +9,8 @@ export class PrestamoRepo {
       .from('prestamo')
       .select(`
         *,
-        usuario(id, nombre, email),
-        libro(id, titulo, isbn)
+        usuario(usuario_id, nombre, email),
+        libro(libro_id, titulo, isbn)
       `)
       .order('fecha_prestamo', { ascending: false });
     
@@ -24,10 +24,10 @@ export class PrestamoRepo {
       .from('prestamo')
       .select(`
         *,
-        usuario(id, nombre, email),
-        libro(id, titulo, isbn, stock)
+        usuario(usuario_id, nombre, email),
+        libro(libro_id, titulo, isbn, stock)
       `)
-      .eq('id', id)
+      .eq('prestamo_id', id)
       .single();
     
     if (error) throw error;
@@ -50,8 +50,8 @@ export class PrestamoRepo {
       }])
       .select(`
         *,
-        usuario(id, nombre, email),
-        libro(id, titulo, isbn)
+        usuario(usuario_id, nombre, email),
+        libro(libro_id, titulo, isbn)
       `)
       .single();
     
@@ -69,11 +69,11 @@ export class PrestamoRepo {
     const { data, error } = await supabase
       .from('prestamo')
       .update(updateData)
-      .eq('id', id)
+      .eq('prestamo_id', id)
       .select(`
         *,
-        usuario(id, nombre, email),
-        libro(id, titulo, isbn)
+        usuario(usuario_id, nombre, email),
+        libro(libro_id, titulo, isbn)
       `)
       .single();
     
@@ -86,7 +86,7 @@ export class PrestamoRepo {
     const { error } = await supabase
       .from('prestamo')
       .delete()
-      .eq('id', id);
+      .eq('prestamo_id', id);
     
     if (error) throw error;
     return true;
@@ -98,7 +98,7 @@ export class PrestamoRepo {
       .from('prestamo')
       .select(`
         *,
-        libro(id, titulo, isbn)
+        libro(libro_id, titulo, isbn)
       `)
       .eq('usuario_id', usuarioId)
       .order('fecha_prestamo', { ascending: false });
@@ -113,7 +113,7 @@ export class PrestamoRepo {
       .from('prestamo')
       .select(`
         *,
-        usuario(id, nombre, email)
+        usuario(usuario_id, nombre, email)
       `)
       .eq('libro_id', libroId)
       .order('fecha_prestamo', { ascending: false });
@@ -127,8 +127,8 @@ export class PrestamoRepo {
       .from('prestamo')
       .select(`
         *,
-        usuario(id, nombre, email),
-        libro(id, titulo, isbn, stock)
+        usuario(usuario_id, nombre, email),
+        libro(libro_id, titulo, isbn, stock)
       `)
       .eq('estado', 'activo')
       .is('fecha_devolucion_real', null)
@@ -144,8 +144,8 @@ export class PrestamoRepo {
       .from('prestamo')
       .select(`
         *,
-        usuario(id, nombre, email),
-        libro(id, titulo, isbn)
+        usuario(usuario_id, nombre, email),
+        libro(libro_id, titulo, isbn)
       `)
       .eq('estado', 'devuelto')
       .not('fecha_devolucion_real', 'is', null)
@@ -164,11 +164,11 @@ export class PrestamoRepo {
         estado: 'devuelto',
         updated_at: new Date().toISOString()
       })
-      .eq('id', id)
+      .eq('prestamo_id', id)
       .select(`
         *,
-        usuario(id, nombre, email),
-        libro(id, titulo, isbn)
+        usuario(usuario_id, nombre, email),
+        libro(libro_id, titulo, isbn)
       `)
       .single();
     
