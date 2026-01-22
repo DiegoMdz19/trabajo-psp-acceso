@@ -1,10 +1,18 @@
 import express from 'express';
 import apiKeyRoutes from './apiKeyRoutes.mjs';
+import usuarioRoutes from './usuarioRoutes.mjs';
+import libroRoutes from './libroRoutes.mjs';
 
 const router = express.Router();
 
 // Montar las rutas de API Keys
 router.use('/', apiKeyRoutes);
+
+// Montar las rutas de Usuarios
+router.use('/usuarios', usuarioRoutes);
+
+// Montar las rutas de Libros
+router.use('/libros', libroRoutes);
 
 // Ruta raíz con información de la API
 router.get('/', (req, res) => {
@@ -17,7 +25,6 @@ router.get('/', (req, res) => {
       ],
       protected: [
         'GET /api/protected/data - Datos protegidos (requiere API Key)',
-<<<<<<< HEAD
         'GET /api/protected/me - Info del cliente (requiere API Key)',
         'GET /api/usuarios - Listar todos los usuarios',
         'GET /api/usuarios/:id - Obtener usuario por ID',
@@ -37,9 +44,6 @@ router.get('/', (req, res) => {
         'GET /api/libros/disponibles - Listar libros disponibles',
         'GET /api/libros/top-autores - Top 5 autores por libros',
         'GET /api/libros/prestamos-por-genero - Préstamos por género'
-=======
-        'GET /api/protected/me - Info del cliente (requiere API Key)'
->>>>>>> parent of b1216cb... feat: añadir rutas, controladores para las consultas complejas
       ],
       admin: [
         'GET /api/admin/keys - Listar todas las API Keys',
