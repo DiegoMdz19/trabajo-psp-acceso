@@ -146,10 +146,10 @@ export class LibroRepo {
   }
 
   async most_lent_books_by_genre(){
-    const {error} = await supabase
+    const {data, error} = await supabase
     .from('top_libros_por_categoria')
     .select('*')
-    .order('total_libros', {ascending : false});
+    .order('total_prestamos', {ascending : false});
 
   if (error) throw error;
     return data;

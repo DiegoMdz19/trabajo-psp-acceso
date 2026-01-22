@@ -90,13 +90,13 @@ async update(id, usuario) {
   }
 
   async list_top_users(){
-    const {error} = await supabase
+    const { data, error } = await supabase
     .from('usuarios_top_prestaciones')
     .select('*')
     .order('total_prestamos',{ascending : false });
     
     if (error) throw error;
-    return true;
+    return data;
   }
 
 }
