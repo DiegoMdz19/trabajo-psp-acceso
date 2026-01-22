@@ -134,7 +134,7 @@ export class LibroRepo {
     if (error) throw error;
     return data;
   }
-  // Llama a una vista en SQL 
+
   async list_top_5_books_authors(){
     const {data, error} = await supabase
     .from('listar_top_5_libros_autores')
@@ -145,6 +145,7 @@ export class LibroRepo {
     return data;
   }
 
+  
   async most_lent_books_by_genre(){
     const {data, error} = await supabase
     .from('top_libros_por_categoria')

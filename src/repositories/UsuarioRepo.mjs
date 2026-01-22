@@ -89,6 +89,7 @@ async update(id, usuario) {
     return true;
   }
 
+  
   async list_top_users(){
     const { data, error } = await supabase
     .from('usuarios_top_prestaciones')

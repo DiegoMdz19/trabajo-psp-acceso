@@ -1,10 +1,26 @@
 import express from 'express';
 import apiKeyRoutes from './apiKeyRoutes.mjs';
+import usuarioRoutes from './usuarioRoutes.mjs';
+import libroRoutes from './libroRoutes.mjs';
+import prestamoRoutes from './prestamoRoutes.mjs';
+import autorRoutes from './autorRoutes.mjs';
 
 const router = express.Router();
 
 // Montar las rutas de API Keys
 router.use('/', apiKeyRoutes);
+
+// Montar las rutas de Usuarios
+router.use('/usuarios', usuarioRoutes);
+
+// Montar las rutas de Libros
+router.use('/libros', libroRoutes);
+
+// Montar las rutas de Préstamos
+router.use('/prestamos', prestamoRoutes);
+
+// Montar las rutas de Autores
+router.use('/autores', autorRoutes);
 
 // Ruta raíz con información de la API
 router.get('/', (req, res) => {
@@ -17,7 +33,6 @@ router.get('/', (req, res) => {
       ],
       protected: [
         'GET /api/protected/data - Datos protegidos (requiere API Key)',
-<<<<<<< HEAD
         'GET /api/protected/me - Info del cliente (requiere API Key)',
         'GET /api/usuarios - Listar todos los usuarios',
         'GET /api/usuarios/:id - Obtener usuario por ID',
@@ -36,10 +51,18 @@ router.get('/', (req, res) => {
         'GET /api/libros/search/titulo/:titulo - Buscar libros por título',
         'GET /api/libros/disponibles - Listar libros disponibles',
         'GET /api/libros/top-autores - Top 5 autores por libros',
-        'GET /api/libros/prestamos-por-genero - Préstamos por género'
-=======
-        'GET /api/protected/me - Info del cliente (requiere API Key)'
->>>>>>> parent of b1216cb... feat: añadir rutas, controladores para las consultas complejas
+        'GET /api/libros/prestamos-por-genero - Préstamos por género',
+        'GET /api/prestamos - Listar todos los préstamos',
+        'GET /api/prestamos/:id - Obtener préstamo por ID',
+        'POST /api/prestamos - Crear préstamo',
+        'PUT /api/prestamos/:id/devolver - Devolver libro',
+        'DELETE /api/prestamos/:id - Eliminar préstamo',
+        'GET /api/autores - Listar todos los autores',
+        'GET /api/autores/:id - Obtener autor por ID',
+        'POST /api/autores - Crear autor',
+        'PUT /api/autores/:id - Actualizar autor',
+        'DELETE /api/autores/:id - Eliminar autor',
+        'GET /api/autores/buscar/:nombre - Buscar autores por nombre'
       ],
       admin: [
         'GET /api/admin/keys - Listar todas las API Keys',
