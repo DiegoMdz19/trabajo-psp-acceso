@@ -5,7 +5,7 @@ export class UsuarioRepo{
 
   async searchAll() {
     const { data, error } = await supabase
-      .from('Us')
+      .from('usuario')
       .select(`*`)
       .order('Nombre');
     
@@ -15,7 +15,7 @@ export class UsuarioRepo{
 
   async searchById(id) {
     const { data, error } = await supabase
-      .from('Usuario')
+      .from('usuario')
       .select(`*`)
       .eq('id', id)
       .single();
@@ -26,7 +26,7 @@ export class UsuarioRepo{
 
   async searchByEmail(email) {
     const { data, error } = await supabase
-      .from('Usuario')
+      .from('usuario')
       .select('*')
       .ilike('email', `%${email}%`)
       .order('email');
@@ -37,7 +37,7 @@ export class UsuarioRepo{
 
   async searchByNombre(nombre) {
     const { data, error } = await supabase
-      .from('Usuario')
+      .from('usuario')
       .select('*')
       .eq('nombre', nombre)
       .maybeSingle();
@@ -49,7 +49,7 @@ export class UsuarioRepo{
 
   async create(usuario) {
     const { data, error } = await supabase
-      .from('Usuario')
+      .from('usuario')
       .insert([{
         nombre: usuario.nombre,
         email: usuario.email,
@@ -69,7 +69,7 @@ async update(id, usuario) {
     };
 
     const { data, error } = await supabase
-      .from('Usuario')
+      .from('usuario')
       .update(updateData)
       .eq('id', id)
       .select()
@@ -81,7 +81,7 @@ async update(id, usuario) {
 
   async delete(id) {
     const { error } = await supabase
-      .from('Usuario')
+      .from('usuario')
       .delete()
       .eq('id', id);
     
