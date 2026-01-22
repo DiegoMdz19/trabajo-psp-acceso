@@ -1,5 +1,6 @@
 import { LibroRepo } from '../repositories/LibroRepo.mjs';
 import { LibroAutorRepo } from '../repositories/LibroAutorRepository.mjs';
+import redis from '../config/redis.mjs';
 
 export class LibroService {
   constructor() {
@@ -170,5 +171,55 @@ export class LibroService {
   async removeAutorFromLibro(libroId, autorId) {
     await this.getLibroById(libroId);
     return await this.libroAutorRepository.removeAutorFromLibro(libroId, autorId);
+  }
+
+  async listTop5BooksAuthors() {
+    const cacheKey = 'top_5_books_authors';
+    try {
+      // Intentar obtener del cache
+      const cachedData = await redis.get(cacheKey);
+      if (cachedData) {
+        console.log('Datos obtenidos del cache Redis');
+        return JSON.parse(cachedData);
+      }
+
+      // Si no está en cache, obtener de la base de datos
+      const data = await this.libroRepository.list_top_5_books_authors();
+
+      // Guardar en cache por 5 minutos (300 segundos)
+      await redis.setEx(cacheKey, 300, JSON.stringify(data));
+      console.log('Datos guardados en cache Redis');
+
+      return data;
+    } catch (error) {
+      console.error('Error al obtener top 5 libros por autores:', error);
+      // En caso de error con Redis, obtener directamente de la BD
+      return await this.libroRepository.list_top_5_books_authors();
+    }
+  }
+
+  async mostLentBooksByGenre() {
+    const cacheKey = 'most_lent_books_by_genre';
+    try {
+      // Intentar obtener del cache
+      const cachedData = await redis.get(cacheKey);
+      if (cachedData) {
+        console.log('Datos obtenidos del cache Redis');
+        return JSON.parse(cachedData);
+      }
+
+      // Si no está en cache, obtener de la base de datos
+      const data = await this.libroRepository.most_lent_books_by_genre();
+
+      // Guardar en cache por 5 minutos (300 segundos)
+      await redis.setEx(cacheKey, 300, JSON.stringify(data));
+      console.log('Datos guardados en cache Redis');
+
+      return data;
+    } catch (error) {
+      console.error('Error al obtener libros más prestados por género:', error);
+      // En caso de error con Redis, obtener directamente de la BD
+      return await this.libroRepository.most_lent_books_by_genre();
+    }
   }
 }

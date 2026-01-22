@@ -1,9 +1,11 @@
 import { LibroRepo } from '../repositories/LibroRepo.mjs';
+import { LibroService } from '../services/Libroservice.mjs';
 import {Libro} from '../models/Libro.mjs';
 
 export class LibroController {
   constructor() {
     this.libroRepo = new LibroRepo();
+    this.libroService = new LibroService();
   }
 
   // GET - Buscar libro por ISBN
@@ -190,7 +192,7 @@ export class LibroController {
 
   async getTopAuthors(req, res) {
     try {
-      const data = await this.libroRepo.list_top_5_books_authors();
+      const data = await this.libroService.listTop5BooksAuthors();
       res.json({
         success: true,
         data: data,
@@ -209,7 +211,7 @@ export class LibroController {
   
   async getLentByGenre(req, res) {
     try {
-      const data = await this.libroRepo.most_lent_books_by_genre();
+      const data = await this.libroService.mostLentBooksByGenre();
       res.json({
         success: true,
         data: data,
