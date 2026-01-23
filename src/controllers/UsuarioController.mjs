@@ -55,6 +55,14 @@ async buscarPorNombre (req, res) {
   async getById(req, res) {
     try {
       const { id } = req.params;
+
+      if (!id || isNaN(id)) {
+        return res.status(400).json({
+          success: false,
+          message: 'El ID debe ser numérico'
+        });
+      }
+
       const data = await this.usuarioRepo.searchById(id);
       if (!data) {
         return res.status(404).json({
@@ -80,6 +88,21 @@ async buscarPorNombre (req, res) {
   async create(req, res) {
     try {
       const usuario = req.body;
+
+      if (!usuario.nombre || usuario.nombre.trim().length < 3) {
+        return res.status(400).json({
+          success: false,
+          message: 'El nombre es obligatorio y debe tener al menos 3 caracteres'
+        });
+      }
+
+      if (!usuario.email || !usuario.email.includes('@')) {
+        return res.status(400).json({
+          success: false,
+          message: 'El email es obligatorio y debe ser válido'
+        });
+      }
+
       const data = await this.usuarioRepo.create(usuario);
       res.status(201).json({
         success: true,
@@ -100,6 +123,22 @@ async buscarPorNombre (req, res) {
     try {
       const { id } = req.params;
       const usuario = req.body;
+
+      if (!id || isNaN(id)) {
+        return res.status(400).json({
+          success: false,
+          message: 'El ID debe ser numérico'
+        });
+      }
+
+      const usuarioExistente = await this.usuarioRepo.searchById(id);
+      if (!usuarioExistente) {
+        return res.status(404).json({
+          success: false,
+          message: `No existe un usuario con el ID ${id}`
+        });
+      }
+
       const data = await this.usuarioRepo.update(id, usuario);
       res.json({
         success: true,
@@ -119,6 +158,22 @@ async buscarPorNombre (req, res) {
   async delete(req, res) {
     try {
       const { id } = req.params;
+
+      if (!id || isNaN(id)) {
+        return res.status(400).json({
+          success: false,
+          message: 'El ID debe ser numérico'
+        });
+      }
+
+      const usuarioExistente = await this.usuarioRepo.searchById(id);
+      if (!usuarioExistente) {
+        return res.status(404).json({
+          success: false,
+          message: `No existe un usuario con el ID ${id}`
+        });
+      }
+
       await this.usuarioRepo.delete(id);
       res.json({
         success: true,

@@ -7,17 +7,17 @@ export class AutorRepo{
     const { data, error } = await supabase
       .from('autor')
       .select(`*`)
-      .order('nombre');
+      .order('autor_id');
     
     if (error) throw error;
     return data;
   }
 
-  async searchByid(autor_id) {
+  async searchById(autor_id) {
     const { data, error } = await supabase
       .from('autor')
       .select(`*`)
-      .eq('autor_autor_id', autor_id)
+      .eq('autor_id', autor_id)
       .single();
     
     if (error) throw error;
@@ -28,8 +28,7 @@ export class AutorRepo{
     const { data, error } = await supabase
       .from('autor')
       .select('*')
-      .eq('nombre', nombre)
-      .single();
+      .ilike('nombre', `%${nombre}%`);
     
     if (error) throw error;
     return data;
@@ -44,7 +43,7 @@ export class AutorRepo{
         email: autor.email,
         biografia: autor.biografia || null,
         fecha_nacimiento: autor.fecha_nacimiento,
-        nacionalautor_idad: autor.nacionalautor_idad,
+        nacionalidad: autor.nacionalidad,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       }])

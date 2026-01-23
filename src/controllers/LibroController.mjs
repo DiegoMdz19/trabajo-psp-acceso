@@ -93,6 +93,14 @@ export class LibroController {
   async getById(req, res) {
     try {
       const { id } = req.params;
+
+      if (!id || isNaN(id)) {
+        return res.status(400).json({
+          success: false,
+          message: 'El ID debe ser numérico'
+        });
+      }
+
       const data = await this.libroRepo.searchById(id);
       if (!data) {
         return res.status(404).json({
@@ -118,6 +126,38 @@ export class LibroController {
   async create(req, res) {
     try {
       const libro = req.body;
+
+      if (!libro.titulo || libro.titulo.trim().length < 3) {
+        return res.status(400).json({
+          success: false,
+          message: 'El título es obligatorio y debe tener al menos 3 caracteres'
+        });
+      }
+
+      if (!libro.isbn || libro.isbn.trim().length < 10) {
+        return res.status(400).json({
+          success: false,
+          message: 'El ISBN es obligatorio y debe ser válido'
+        });
+      }
+
+      const stock = Number(libro.stock);
+
+      if (!Number.isInteger(stock) || stock < 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'El stock debe ser un número entero mayor o igual a 0'
+        });
+}
+
+      const generosValidos = ['ROMANCE', 'AVENTURAS', 'ACCION', 'FANTASIA', 'TERROR', 'DRAMA'];
+      if (libro.genero && !generosValidos.includes(libro.genero.toUpperCase())) {
+        return res.status(400).json({
+          success: false,
+          message: `Género no válido. Debe ser uno de estos: ${generosValidos.join(', ')}`
+        });
+      }
+
       const data = await this.libroRepo.create(libro);
       res.status(201).json({
         success: true,
@@ -138,6 +178,29 @@ export class LibroController {
     try {
       const { id } = req.params;
       const libro = req.body;
+
+      if (!id || isNaN(id)) {
+        return res.status(400).json({
+          success: false,
+          message: 'El ID debe ser numérico'
+        });
+      }
+
+      const libroExistente = await this.libroRepo.searchById(id);
+      if (!libroExistente) {
+        return res.status(404).json({
+          success: false,
+          message: `No existe un libro con el ID ${id}`
+        });
+      }
+
+      if (libro.stock !== undefined && libro.stock < 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'El stock no puede ser negativo'
+        });
+      }
+
       const data = await this.libroRepo.update(id, libro);
       res.json({
         success: true,
@@ -157,6 +220,22 @@ export class LibroController {
   async delete(req, res) {
     try {
       const { id } = req.params;
+
+      if (!id || isNaN(id)) {
+        return res.status(400).json({
+          success: false,
+          message: 'El ID debe ser numérico'
+        });
+      }
+
+      const libroExistente = await this.libroRepo.searchById(id);
+      if (!libroExistente) {
+        return res.status(404).json({
+          success: false,
+          message: `No existe un libro con el ID ${id}`
+        });
+      }
+
       await this.libroRepo.delete(id);
       res.json({
         success: true,
