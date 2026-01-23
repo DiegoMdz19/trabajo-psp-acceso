@@ -41,7 +41,7 @@ export class LibroAutorRepository {
       .eq('libro_id', libroId);
     
     if (error) throw error;
-    return data.map(item => item.Autor);
+    return data.map(item => item.autor);
   }
 
  
@@ -54,7 +54,7 @@ export class LibroAutorRepository {
       .eq('autor_id', autorId);
     
     if (error) throw error;
-    return data.map(item => item.Libro);
+    return data.map(item => item.libro);
   }
 
  
