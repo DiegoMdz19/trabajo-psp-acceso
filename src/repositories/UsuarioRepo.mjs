@@ -7,7 +7,7 @@ export class UsuarioRepo{
     const { data, error } = await supabase
       .from('usuario')
       .select(`*`)
-      .order('nombre');
+      .order('usuario_id');
     
     if (error) throw error;
     return data;
@@ -29,8 +29,7 @@ export class UsuarioRepo{
     const { data, error } = await supabase
       .from('usuario')
       .select('*')
-      .eq('nombre', nombre)
-      .maybeSingle();
+      .ilike('nombre', `%${nombre}%`);
     
     if (error) throw error;
     return data;

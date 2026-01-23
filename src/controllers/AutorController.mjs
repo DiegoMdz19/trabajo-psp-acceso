@@ -69,6 +69,14 @@ export class AutorController {
                 });
             }
 
+            if (datosAutor.email) {
+                if (!datosAutor.email.includes('@') || !datosAutor.email.includes('.')) {
+                    return res.status(400).json({
+                        error: 'Email no válido'
+                    });
+                }
+            }
+
             const autor = new Autor(datosAutor);
             const autorCreado = await this.autorRepo.create(autor);
 
